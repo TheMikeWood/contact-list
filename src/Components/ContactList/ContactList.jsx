@@ -8,7 +8,7 @@ const dummyContacts = [
   { id: 3, name: "BB-8", phone: "888-888-8888", email: "bb8@droids.com" },
 ];
 
-function ContactList() {
+function ContactList({ setFeaturedUser }) {
   const [contacts, setContacts] = useState(dummyContacts);
   useEffect(() => {
     axios("https://fsa-jsonplaceholder-69b5c48f1259.herokuapp.com/users")
@@ -34,7 +34,11 @@ function ContactList() {
       </thead>
       <tbody>
         {contacts.map((contact) => (
-          <ContactRow key={contact.id} contact={contact} />
+          <ContactRow
+            key={contact.id}
+            contact={contact}
+            setFeaturedUser={setFeaturedUser}
+          />
         ))}
       </tbody>
     </table>
