@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ContactRow from "../ContactRow/ContactRow";
+import axios from "axios";
 
 const dummyContacts = [
   { id: 1, name: "R2-D2", phone: "222-222-2222", email: "r2d2@droids.com" },
@@ -9,14 +10,21 @@ const dummyContacts = [
 
 function ContactList() {
   const [contacts, setContacts] = useState(dummyContacts);
-  console.log(contacts);
+  useEffect(() => {
+    axios("https://fsa-jsonplaceholder-69b5c48f1259.herokuapp.com/users")
+      .then((data) => {
+        {
+          console.log(data.data);
+          setContacts(data.data);
+        }
+      })
+      .catch((err) => console.error(err));
+  }, []);
   return (
     <table>
       <thead>
         <tr>
-          <th colSpan="3" style={{ border: "1px solid black" }}>
-            Contact List
-          </th>
+          <th colSpan="3">Contact List</th>
         </tr>
         <tr>
           <th>Name</th>
@@ -25,7 +33,7 @@ function ContactList() {
         </tr>
       </thead>
       <tbody>
-        {dummyContacts.map((contact) => (
+        {contacts.map((contact) => (
           <ContactRow key={contact.id} contact={contact} />
         ))}
       </tbody>
